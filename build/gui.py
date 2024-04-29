@@ -14,7 +14,7 @@ import tkinter.messagebox as messagebox
 from tkcalendar import Calendar
 from tkinter import OptionMenu
 import qrcode
-
+from tkinter import * 
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path(r"F:\Next_Try\build\assets\frame0")
