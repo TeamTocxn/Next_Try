@@ -457,7 +457,7 @@ class StudentApp:
         
       
         self.image_left_image = PhotoImage(
-            file=relative_to_assets("image_1_1.png"))
+            file=relative_to_assets("image_1_2.png"))
         self.left_image = self.canvas1.create_image(
             725.0,
             430.0,
@@ -858,11 +858,43 @@ class StudentApp:
             height=25.0
         )
         
-        height_var = StringVar()
-        person_height = Entry(
+      
+        def on_select_gr_name(event):
+            selected_option = title_var.get()
+           
+        def on_focus_out_gr_name(event):
+            if title_var.get() != "" and care_of_name.get() != "":
+                gurdian_name.set(title_var.get() + "  " + care_of_name.get())
+                print("Degree :", gurdian_name.get())
+                
+              
+        title_var = StringVar()
+        care_of_name = StringVar()
+        gurdian_name = StringVar()
+        
+        gurdian_name.set("")
+        title_var.set("")
+        care_of_name.set("")
+        
+        title_options = ["Mr.","Mrs."]
+        tiltle_combobox = Combobox(
             self.canvas1,
-            textvariable=height_var,
-            font=("Comic Sans MS", 14,"bold"),
+            textvariable=title_var,
+            values=title_options,
+            state="readonly"
+        )
+        tiltle_combobox.config(font=("Comic Sans MS", 10,"bold"))
+        tiltle_combobox.place(
+            x=120.0,
+            y=380.0,
+            width=150.0,
+            height=25.0
+        )
+                
+        care_of = Entry(
+            self.canvas1,
+            textvariable=care_of_name,
+            font=("Comic Sans MS", 16,"bold"),
             bd=0,
             bg="#FCF8EE",
             fg="#000716",
@@ -870,84 +902,20 @@ class StudentApp:
             relief="solid",
             highlightthickness=0
         )
-        person_height.place(
-            x=190.0,
-            y=345.0,
-            width=145.0,
-            height=25.0
-        )
-        
-        weight_var = StringVar()
-        person_weight = Entry(
-            self.canvas1,
-            textvariable=height_var,
-            font=("Comic Sans MS", 14,"bold"),
-            bd=0,
-            bg="#FCF8EE",
-            fg="#000716",
-            borderwidth=1,
-            relief="solid",
-            highlightthickness=0
-        )
-        person_weight.place(
-            x=440.0,
-            y=345.0,
-            width=120.0,
-            height=27.0
-        )
-        
-        
-        sp_abled_options = ["Yes","No"]
-        sp_abled_var = StringVar()
-        sp_abled_combobox = Combobox(
-                        self.canvas1,
-                        textvariable=sp_abled_var,
-                        values=sp_abled_options,
-                        state="readonly")
-        sp_abled_combobox.config(font=("Comic Sans MS", 10,"bold"))
 
-        sp_abled_combobox.place(
-            x=440.0,
-            y=392.0,
-            width=120.0,
+        care_of.place(
+            x=290.0,
+            y=380.0,
+            width=350.0,
             height=25.0
         )
+       
         
-
-        self.sp_abled_image = PhotoImage(
-            file=relative_to_assets("button_8.png"))
-        sp_abled_image_proof = Button(
-            self.canvas1,
-            image=self.sp_abled_image,
-            bg="#FCF8EE",
-            activebackground="white",
-            borderwidth=0,
-            highlightthickness=0,
-            command=lambda: print("Specially Abled"),
-            relief="flat"
-        )
-        sp_abled_image_proof.place(
-            x=580.0,
-            y=347.0,
-            width=59.0,
-            height=44.0
-        )
-        
-        blood_group_options = ["A+","A-","B+","B-","AB+","AB-","O+","O-"]
-        blood_group_var = StringVar()
-        blood_group_combobox = Combobox(
-                        self.canvas1,
-                        textvariable=blood_group_var,
-                        values=blood_group_options,
-                        state="readonly")
-        blood_group_combobox.config(font=("Comic Sans MS", 10,"bold"))
-        blood_group_combobox.place(
-            x=190.0,
-            y=392.0,
-            width=145.0,
-            height=25.0
-        )
-        
+        tiltle_combobox.bind("<<ComboboxSelected>>", on_select_gr_name)
+        tiltle_combobox.bind("<FocusOut>", on_focus_out_gr_name)
+        care_of.bind("<FocusOut>", on_focus_out_gr_name)
+                 
+                 
         
         
         isd_countries = {
@@ -984,7 +952,7 @@ class StudentApp:
         isd_combobox.bind("<<ComboboxSelected>>", show_isd_code) 
         isd_combobox.place(
             x=120.0,
-            y=485.0,
+            y=420.0,
             width=170.0,
             height=25.0
         )
@@ -1002,7 +970,7 @@ class StudentApp:
         )
         phone_no.place(
             x=300.0,
-            y=485.0,
+            y=420.0,
             width=340.0,
             height=25.0
         )
@@ -1029,7 +997,7 @@ class StudentApp:
         )
         email_username.place(
             x=120.0,
-            y=555.0,
+            y=490.0,
             width=350.0,
             height=25.0
         )
@@ -1066,7 +1034,7 @@ class StudentApp:
         email_domain_combobox.config(font=("Comic Sans MS", 10,"bold"))
         email_domain_combobox.place(
             x=480.0,
-            y=555.0,
+            y=490.0,
             width=160.0,
             height=26.0
         )
@@ -1101,7 +1069,7 @@ class StudentApp:
         nationality_combobox.bind("<<ComboboxSelected>>", show_country) 
         nationality_combobox.place(
             x=145.0,
-            y=626.0,
+            y=561.0,
             width=240.0,
             height=25.0
         )
@@ -1118,7 +1086,7 @@ class StudentApp:
 
         religion_combobox.place(
             x=470.0,
-            y=626.0,
+            y=561.0,
             width=170.0,
             height=25.0
         )
@@ -1138,7 +1106,7 @@ class StudentApp:
 
         address.place(
             x=145.0,
-            y=670.0,
+            y=605.0,
             width=495.0,
             height=25.0
         )
@@ -1201,26 +1169,6 @@ class StudentApp:
         
         id_no.bind("<FocusOut>", on_focus_out_id)
         
-        self.identity_image = PhotoImage(
-            file=relative_to_assets("button_7.png"))
-        identity_doc = Button(
-            self.canvas1,
-            image=self.identity_image,
-            borderwidth=0,
-            bg="#FCF8EE",
-            highlightthickness=0,
-            activebackground="white",
-            command=identity_proof_image,
-            relief="flat"
-        )
-        identity_doc .place(
-            x=1315.0,
-            y=110.0,
-            width=70.0,
-            height=120.0
-        )
-                      
-                
         def on_select_degree(event):
             selected_option = degree_name_var.get()
             if selected_option == "Others":
@@ -1252,7 +1200,7 @@ class StudentApp:
         degree_name_combobox.config(font=("Comic Sans MS", 10,"bold"))
         degree_name_combobox.place(
             x=930.0,
-            y=320.0,
+            y=340.0,
             width=382.0,
             height=25.0
         )
@@ -1271,7 +1219,7 @@ class StudentApp:
         )
         degree_percentage.place(
             x=930.0,
-            y=375.0,
+            y=385.0,
             width=150.0,
             height=25.0
         )
@@ -1290,7 +1238,7 @@ class StudentApp:
         )
         degree_year.place(
             x=1160.0,
-            y=375.0,
+            y=385.0,
             width=150.0,
             height=25.0
         )
@@ -1301,66 +1249,21 @@ class StudentApp:
         degree_percentage.bind("<FocusOut>", on_focus_out_degree)
         
         
-        self.pr_degree_image = PhotoImage(
-            file=relative_to_assets("button_8.png"))
-        pr_degree = Button(
-            self.canvas1,
-            image=self.pr_degree_image,
-            borderwidth=0,
-            bg="#FCF8EE",
-            highlightthickness=0,
-            activebackground="white",
-            command=qualification_cert_image,
-            relief="flat"
-        )
-        pr_degree.place(
-            x=1320.0,
-            y=315.0,
-            width=70.0,
-            height=53.0
-        )
-        
-        def on_select_gr_name(event):
-            selected_option = title_var.get()
-            '''if selected_option == "Others":
-                degree_name_combobox.config(state="normal")
-                degree_name_combobox.delete(0, "end")
-                degree_name_combobox.focus_set()
-            else:
-                degree_name_combobox.config(state="readonly")'''
-
-        def on_focus_out_gr_name(event):
-            if title_var.get() != "" and care_of_name.get() != "":
-                gurdian_name.set(title_var.get() + "  " + care_of_name.get())
-                print("Degree :", gurdian_name.get())
+        def on_focus_out_activity(event):
+            if games_var.get() != "" and skills_var.get() != "":
+                activity_var.set("Games : "+games_var.get() + "  Other activity : " + skills_var.get())
+                print("Degree :", activity_var.get())
                 
-              
-        title_var = StringVar()
-        care_of_name = StringVar()
-        gurdian_name = StringVar()
         
-        gurdian_name.set("")
-        title_var.set("")
-        care_of_name.set("")
-        
-        title_options = ["Mr.","Mrs."]
-        tiltle_combobox = Combobox(
+        activity_var = StringVar()
+        activity_var.set("")
+        games_var=StringVar()
+        skills_var=StringVar()
+        skills_var.set("")
+        games_var.set("")
+        games = Entry(
             self.canvas1,
-            textvariable=title_var,
-            values=title_options,
-            state="readonly"
-        )
-        tiltle_combobox.config(font=("Comic Sans MS", 10,"bold"))
-        tiltle_combobox.place(
-            x=820.0,
-            y=492.0,
-            width=80.0,
-            height=25.0
-        )
-                
-        care_of = Entry(
-            self.canvas1,
-            textvariable=care_of_name,
+            textvariable=games_var,
             font=("Comic Sans MS", 16,"bold"),
             bd=0,
             bg="#FCF8EE",
@@ -1370,18 +1273,109 @@ class StudentApp:
             highlightthickness=0
         )
 
-        care_of.place(
-            x=930.0,
-            y=492.0,
-            width=260.0,
+        games.place(
+            x=915.0,
+            y=442.0,
+            width=200.0,
             height=25.0
         )
-       
         
-        tiltle_combobox.bind("<<ComboboxSelected>>", on_select_gr_name)
-        tiltle_combobox.bind("<FocusOut>", on_focus_out_gr_name)
-        care_of.bind("<FocusOut>", on_focus_out_gr_name)
-                 
+        skills = Entry(
+            self.canvas1,
+            textvariable=skills_var,
+            font=("Comic Sans MS", 16),
+            bd=0,
+            bg="#FCF8EE",
+            fg="#000716",
+            borderwidth=1,
+            relief="solid",
+            highlightthickness=0
+        )
+
+        skills.place(
+            x=1190.0,
+            y=442.0,
+            width=190.0,
+            height=25.0
+        )
+        games.bind("<FocusOut>", on_focus_out_activity)
+        skills.bind("<FocusOut>", on_focus_out_activity)
+        
+               
+        height_var = StringVar()
+        weight_var = StringVar()
+        person_height = Entry(
+            self.canvas1,
+            textvariable=height_var,
+            font=("Comic Sans MS", 14,"bold"),
+            bd=0,
+            bg="#FCF8EE",
+            fg="#000716",
+            borderwidth=1,
+            relief="solid",
+            highlightthickness=0
+        )
+        person_height.place(
+            x=915.0,
+            y=595.0,
+            width=145.0,
+            height=25.0
+        )
+        
+        
+        person_weight = Entry(
+            self.canvas1,
+            textvariable=weight_var,
+            font=("Comic Sans MS", 14,"bold"),
+            bd=0,
+            bg="#FCF8EE",
+            fg="#000716",
+            borderwidth=1,
+            relief="solid",
+            highlightthickness=0
+        )
+        person_weight.place(
+            x=1180.0,
+            y=595.0,
+            width=120.0,
+            height=25.0
+        )
+        
+        
+        sp_abled_options = ["Yes","No"]
+        sp_abled_var = StringVar()
+        sp_abled_combobox = Combobox(
+                        self.canvas1,
+                        textvariable=sp_abled_var,
+                        values=sp_abled_options,
+                        state="readonly")
+        sp_abled_combobox.config(font=("Comic Sans MS", 10,"bold"))
+
+        sp_abled_combobox.place(
+            x=1180.0,
+            y=553.0,
+            width=120.0,
+            height=25.0
+        )
+        
+
+        
+        blood_group_options = ["A+","A-","B+","B-","AB+","AB-","O+","O-"]
+        blood_group_var = StringVar()
+        blood_group_combobox = Combobox(
+                        self.canvas1,
+                        textvariable=blood_group_var,
+                        values=blood_group_options,
+                        state="readonly")
+        blood_group_combobox.config(font=("Comic Sans MS", 10,"bold"))
+        blood_group_combobox.place(
+            x=915.0,
+            y=553.0,
+            width=145.0,
+            height=25.0
+        )
+        
+        
         emergency_var=StringVar()
         emergency = Entry(
             self.canvas1,
@@ -1397,52 +1391,76 @@ class StudentApp:
 
         emergency.place(
             x=915.0,
-            y=538.0,
+            y=640.0,
             width=460.0,
-            height=80.0
+            height=50.0
         )
         
-       
         
-        games_var=StringVar()
-        games = Entry(
+        
+        #############################################################################
+        
+        
+        
+        
+        self.doc_upload_bttn = PhotoImage(
+            file=relative_to_assets("doc_upload.png"))
+        
+        identity_address_doc = Button(
             self.canvas1,
-            textvariable=games_var,
-            font=("Comic Sans MS", 16,"bold"),
-            bd=0,
+            image=self.doc_upload_bttn,
+            borderwidth=0,
             bg="#FCF8EE",
-            fg="#000716",
-            borderwidth=1,
-            relief="solid",
-            highlightthickness=0
+            highlightthickness=0,
+            activebackground="white",
+            command=identity_proof_image,
+            relief="flat"
         )
-
-        games.place(
-            x=915.0,
-            y=658.0,
-            width=220.0,
-            height=25.0
+        identity_address_doc .place(
+            x=1315.0,
+            y=110.0,
+            width=59.0,
+            height=44.0
         )
-        skills_var=StringVar()
-        skills = Entry(
+                      
+ 
+        degree_activity_doc = Button(
             self.canvas1,
-            textvariable=skills_var,
-            font=("Comic Sans MS", 16),
-            bd=0,
+            image=self.doc_upload_bttn,
+            borderwidth=0,
             bg="#FCF8EE",
-            fg="#000716",
-            borderwidth=1,
-            relief="solid",
-            highlightthickness=0
+            highlightthickness=0,
+            activebackground="white",
+            command=qualification_cert_image,
+            relief="flat"
         )
-
-        skills.place(
-            x=1202.0,
-            y=658.0,
-            width=170.0,
-            height=25.0
+        degree_activity_doc.place(
+            x=1320.0,
+            y=335.0,
+            width=59.0,
+            height=44.0
         )
         
+        
+        medical_certificate = Button(
+            self.canvas1,
+            image=self.doc_upload_bttn,
+            bg="#FCF8EE",
+            activebackground="white",
+            borderwidth=0,
+            highlightthickness=0,
+            command=lambda: print("Specially Abled"),
+            relief="flat"
+        )
+        medical_certificate.place(
+            x=1320.0,
+            y=550.0,
+            width=59.0,
+            height=44.0
+        )
+        
+        
+        #############################################################
         
         submit_2 = Button(
             self.canvas1,
