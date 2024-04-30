@@ -14,7 +14,7 @@ import tkinter.messagebox as messagebox
 from tkcalendar import Calendar
 from tkinter import OptionMenu
 import qrcode
-from tkinter import * 
+from PIL import Image
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path(r"F:\Next_Try\build\assets\frame0")
@@ -948,10 +948,8 @@ class StudentApp:
             height=25.0
         )
         
-        def on_focus_out(event):
-            if ph_no.get() != "":
-                phone_no_var.set(isd_var.get()+ph_no.get())
-                print("Custom option entered:", phone_no_var.get())
+        
+        
         isd_countries = {
             "+91": "India",
             "+1": "United States",
@@ -959,6 +957,13 @@ class StudentApp:
         }
         isd_options = [f"{isd} - {country}" for isd, country in isd_countries.items()]
 
+
+
+        def on_focus_out(event):
+            if ph_no.get() != "" and isd_var.get() !="":
+                phone_no_var.set(isd_var.get()+ph_no.get())
+                print("Custom option entered:", phone_no_var.get())
+      
         def show_isd_code(event):
             selected_option = isd_var.get()
             if selected_option:
@@ -1138,10 +1143,25 @@ class StudentApp:
             height=25.0
         )
         
+        def on_focus_out_id(event):
+            if id_no_var.get() != "" and id_category_var.get() !="":
+                identity_proof_var.set(id_category_var.get()+" No is -"+id_no_var.get())
+                print("ID IS: ",identity_proof_var.get())
+      
+        def show_id_catg(event):
+            selected_option = id_category_var.get()
+            if selected_option:
+                print("CATG:", id_category_var.get())  # Print the value of isd_var
+
+       
+       
         id_category_options = ["Aadhaar", "Passport","Driving License", "PAN Card",
                                "Voter ID Card","Post Office ID card","Bank Account Passbook",
                                "Other Photo ID  by Govt."]
+        id_no_var=StringVar()
         id_category_var = StringVar()
+        id_category_var.set("")
+        id_no_var.set("")
         id_category_combobox = Combobox(
                         self.canvas1,
                         textvariable=id_category_var ,
@@ -1156,10 +1176,14 @@ class StudentApp:
             width=240.0,
             height=25.0
         )
-
+        
+        id_category_combobox.bind("<<ComboboxSelected>>", show_id_catg) 
+        
+        
+        
         id_no = Entry(
             self.canvas1,
-            textvariable=identity_proof_var,
+            textvariable=id_no_var,
             font=("Comic Sans MS", 16,"bold"),
             bd=0,
             bg="#FCF8EE",
@@ -1174,7 +1198,9 @@ class StudentApp:
             width=308.0,
             height=25.0
         )
-
+        
+        id_no.bind("<FocusOut>", on_focus_out_id)
+        
         self.identity_image = PhotoImage(
             file=relative_to_assets("button_7.png"))
         identity_doc = Button(
@@ -1193,10 +1219,8 @@ class StudentApp:
             width=70.0,
             height=120.0
         )
-        
-
-        
-        
+                      
+                
         def on_select_degree(event):
             selected_option = degree_name_var.get()
             if selected_option == "Others":
@@ -1207,17 +1231,18 @@ class StudentApp:
                 degree_name_combobox.config(state="readonly")
 
         def on_focus_out_degree(event):
-            if degree_name_var.get() != "":
-                print("Degree Name:", degree_name_var.get())
+            if degree_name_var.get() != "" and degree_marks.get() != "" and degree_year.get() != "":
+                last_qualification_var.set(degree_name_var.get() + ",with " + degree_marks.get()+" % marks, in " + degree_year.get())
+                print("Degree :", last_qualification_var.get())
 
 
-        #email_domain_options = ["Custom", "FIRST", "SOND", "THIRD", "FOURTH"]
-        degree_name_options = [
-                             "Others","Higher Secondary ", "Polytechnic",
-                            "B.Sc (CS/IT)", "B.Sc(Others)", 
-                            "B.C.A"]
-
+        degree_name_options = ["Others","Higher Secondary ", "Polytechnic","B.Sc (CS/IT)", "B.Sc(Others)", "B.C.A"]
+        degree_marks = StringVar()
         degree_name_var = StringVar()
+        degree_year = StringVar()
+        degree_year.set("")
+        degree_name_var.set("")
+        degree_marks.set("")
         degree_name_combobox = Combobox(
             self.canvas1,
             textvariable=degree_name_var,
@@ -1231,12 +1256,11 @@ class StudentApp:
             width=382.0,
             height=25.0
         )
-        degree_name_combobox.bind("<<ComboboxSelected>>", on_select_degree)
-        degree_name_combobox.bind("<FocusOut>", on_focus_out_degree)
+        
         
         degree_percentage = Entry(
             self.canvas1,
-            textvariable=last_qualification_var,
+            textvariable=degree_marks,
             font=("Comic Sans MS", 14,"bold"),
             bd=0,
             bg="#FCF8EE",
@@ -1255,7 +1279,7 @@ class StudentApp:
 
         degree_year = Entry(
             self.canvas1,
-            #textvariable=last_qualification_var,
+            textvariable=degree_year,
             font=("Comic Sans MS", 14,"bold"),
             bd=0,
             bg="#FCF8EE",
@@ -1271,7 +1295,11 @@ class StudentApp:
             height=25.0
         )
         
-
+        degree_name_combobox.bind("<<ComboboxSelected>>", on_select_degree)
+        degree_name_combobox.bind("<FocusOut>", on_focus_out_degree)
+        degree_year.bind("<FocusOut>", on_focus_out_degree)
+        degree_percentage.bind("<FocusOut>", on_focus_out_degree)
+        
         
         self.pr_degree_image = PhotoImage(
             file=relative_to_assets("button_8.png"))
@@ -1292,11 +1320,30 @@ class StudentApp:
             height=53.0
         )
         
-       
+        def on_select_gr_name(event):
+            selected_option = title_var.get()
+            '''if selected_option == "Others":
+                degree_name_combobox.config(state="normal")
+                degree_name_combobox.delete(0, "end")
+                degree_name_combobox.focus_set()
+            else:
+                degree_name_combobox.config(state="readonly")'''
 
-        title_options = ["Mr.","Mrs."]
-
+        def on_focus_out_gr_name(event):
+            if title_var.get() != "" and care_of_name.get() != "":
+                gurdian_name.set(title_var.get() + "  " + care_of_name.get())
+                print("Degree :", gurdian_name.get())
+                
+              
         title_var = StringVar()
+        care_of_name = StringVar()
+        gurdian_name = StringVar()
+        
+        gurdian_name.set("")
+        title_var.set("")
+        care_of_name.set("")
+        
+        title_options = ["Mr.","Mrs."]
         tiltle_combobox = Combobox(
             self.canvas1,
             textvariable=title_var,
@@ -1310,8 +1357,7 @@ class StudentApp:
             width=80.0,
             height=25.0
         )
-        
-        care_of_name=StringVar()
+                
         care_of = Entry(
             self.canvas1,
             textvariable=care_of_name,
@@ -1330,10 +1376,12 @@ class StudentApp:
             width=260.0,
             height=25.0
         )
-        care_of_full_name=(title_var.get()+care_of.get())
-    
        
         
+        tiltle_combobox.bind("<<ComboboxSelected>>", on_select_gr_name)
+        tiltle_combobox.bind("<FocusOut>", on_focus_out_gr_name)
+        care_of.bind("<FocusOut>", on_focus_out_gr_name)
+                 
         emergency_var=StringVar()
         emergency = Entry(
             self.canvas1,
